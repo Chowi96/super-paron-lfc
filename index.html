@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Super Parón LFC</title>
+<style>
+:root{--bg:#07090c;--panel:#101419;--panel2:#151a20;--text:#f4f6f8;--muted:#9ba5af;--blue:#00a7e1;--red:#ff2028;--green:#2bd576;--yellow:#ffc857;--border:#252c34}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 0,#06243a 0,#07090c 32%),linear-gradient(135deg,#07090c,#0b0e13);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+a{color:inherit}.wrap{max-width:1180px;margin:auto;padding:20px}.top{display:flex;align-items:center;gap:18px;padding:12px 0 20px}.logo{width:74px;height:74px;object-fit:contain}.brand h1{margin:0;font-size:32px;letter-spacing:.5px}.brand p{margin:5px 0 0;color:var(--muted)}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}.tab{border:1px solid var(--border);background:var(--panel);color:#fff;padding:11px 15px;border-radius:10px;cursor:pointer;font-weight:700}.tab.active{border-color:var(--blue);box-shadow:0 0 0 1px #00a7e155 inset;background:#0b1d29}.card{background:rgba(16,20,25,.95);border:1px solid var(--border);border-radius:15px;padding:18px;margin:12px 0;box-shadow:0 10px 35px #0005}.hero{border-left:4px solid var(--red);border-right:4px solid var(--blue)}h2{margin:0 0 7px}h3{margin:0 0 8px}.muted{color:var(--muted)}.deadline{display:inline-block;padding:6px 10px;border-radius:999px;background:#231316;border:1px solid #5d2329;color:#ffadb1;font-size:13px;font-weight:700}.prizes{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.prize{padding:8px 11px;background:#0b1116;border:1px solid var(--border);border-radius:9px;font-size:13px}.prize b{color:var(--yellow)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px}.match{border:1px solid var(--border);background:var(--panel2);border-radius:13px;padding:14px}.match-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:12px}.date{font-size:12px;color:var(--muted)}.teams{text-align:center;font-size:18px;font-weight:800;margin:10px 0 13px}.controls{display:grid;grid-template-columns:1fr 1fr;gap:8px}.control label{display:block;font-size:11px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}.control input,.control select,.login input,.login select,.admin input,.admin select,.admin textarea{width:100%;padding:10px;border-radius:9px;border:1px solid #343c46;background:#080b0f;color:#fff;outline:none}.control input:focus,.control select:focus,.login input:focus{border-color:var(--blue)}.xwide{grid-column:1/-1}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.btn{padding:10px 14px;border-radius:9px;border:1px solid var(--border);background:#171d24;color:#fff;cursor:pointer;font-weight:800}.btn.primary{background:linear-gradient(90deg,#006e9e,#00a7e1);border:0}.btn.red{background:linear-gradient(90deg,#a10e15,#ff2028);border:0}.btn:disabled{opacity:.45;cursor:not-allowed}.notice{padding:10px 12px;border-radius:10px;background:#101a13;border:1px solid #24452f;color:#aef2c8;margin-top:10px}.warning{background:#241e0d;border-color:#574817;color:#ffe39a}.login{max-width:520px;margin:30px auto}.login h2{text-align:center}.error{color:#ff8c91;margin-top:8px}.hidden{display:none!important}.tablewrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:760px}.table th,.table td{padding:11px 9px;border-bottom:1px solid var(--border);text-align:center}.table th{color:var(--muted);font-size:12px;text-transform:uppercase}.table td:first-child,.table th:first-child{text-align:left}.money{font-weight:900;color:#ffd35a}.ok{color:var(--green);font-weight:900}.bad{color:#ff6e74;font-weight:900}.pending{color:var(--yellow);font-weight:900}.status{font-size:12px;margin-top:7px}.section-title{display:flex;justify-content:space-between;align-items:center;gap:10px}.pill{padding:5px 9px;border-radius:999px;background:#101820;border:1px solid var(--border);font-size:12px}.footer{color:#69737d;font-size:11px;text-align:center;padding:30px 0}.admin-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px}.small{font-size:12px}.checkbox{display:flex;align-items:center;gap:8px}.checkbox input{width:auto}.logoBig{width:115px;height:115px;object-fit:contain;display:block;margin:0 auto 10px}
+@media(max-width:650px){.wrap{padding:12px}.brand h1{font-size:25px}.controls{grid-template-columns:1fr}.admin-row{grid-template-columns:1fr}.table{min-width:650px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+<img class="logo" src="LFC Biwenger(1).png" alt="LFC">
+<div class="brand"><h1>SUPER PARÓN LFC</h1><p>La Liga Fantasy de Cuñaos · Especial selecciones 2026</p></div>
+</header>
+
+<div id="app"></div>
+<div class="footer">Super Parón LFC · Datos de convocatorias comprobados a 19/09/2026 · La corrección de resultados corresponde al administrador.</div>
+</div>
+
+<script>
+/*
+  SUPER PARÓN LFC — versión inicial funcional en navegador.
+  IMPORTANTE:
+  Esta versión usa localStorage para que puedas probar toda la interfaz.
+  Para publicar una versión multiusuario real en GitHub Pages, conecta el mismo
+  modelo de datos a Supabase (ver CONFIG al final y el archivo README).
+*/
+
+const CONFIG = {
+  adminPin: "LFC2026", // CAMBIAR antes de usar
+  playerBonus: 200000,
+  prizes:{outcome:100000, exact:250000, scorer:50000, block:1000000}
+};
+
+const participants = [
+ {id:"jowy",name:"Jowy FC",password:"JOWY27",players:["Agirrezabala","Pedrosa","Christensen","Gudelj","Luismi Cruz","Pedri","Sangaré","Gordon","Nico Williams","Mikautadze","Buenanotte","Quagliatta"]},
+ {id:"bernal",name:"F.C. BERNAL",password:"BERNAL14",players:["Adrian Rodriguez","Chust","Jonny","Yuri","Alvaro Garcia","Alex Baena","Dani Olmo","Marc Casadó","Gerard Moreno","Fer Niño","Marcos Fernandez","Koke"]},
+ {id:"tititeam",name:"Tititeam",password:"TITI22",players:["Padilla","Ximo Navarro","Areso","Suazo","Ruben Sanchez","Abde Rebbach","Nicolas Pepe","Barja","Robert Navarro","Raul Garcia","Raphinha","Freeman"]},
+ {id:"waki",name:"Waki Lab",password:"WAKI31",players:["David Soria","Angel Perez","Espart","José Salinas","Osambela","Mayol","Ez Abde","Budimir","Roberto Fernandez","Lamine Yamal","Pablo Durán","Militao","Szczesny"]},
+ {id:"jarama",name:"Jarama FC",password:"JARA09",players:["Alfonso Herrero","Noubi","Paredes","Huijsen","Sazonov","Dieng","Unai Lopez","Bardeli","Brugue","Boye","Mbappe"]},
+ {id:"aranegame",name:"Aranegame FC",password:"ARAN33",players:["Aitor Fdez","Yeboah","Recio","Tete Morente","Pablo Garcia","Arda Güler","Bouare","Bellingham","Javi Hdez","Zabiri","Aubameyang","Boselli","Belaid"]},
+ {id:"castro",name:"CASTRO S.A.D.",password:"CASTRO07",players:["Cardenas","Toljan","Lago","Hernando","Facundo Gonzalez","Rueda","Oscar Valentin","Pablo Ibañez","Danjuma","Fermín","Iván Romero"]},
+ {id:"byron",name:"Real Byron Caninn",password:"BYRON18",players:["Dmitrievski","Bellerin","Natan","Hinojo","Cepeda","Ramón Enriquez","Marc Roca","Azón","Arnau Ortiz","Adrian Niño","Adeyemi"]}
+];
+
+const squads = {
+"NED":["Denzel Dumfries","Jeremie Frimpong","Lutsharel Geertruida","Jurriën Timber","Virgil van Dijk","Jan Paul van Hecke","Nathan Aké","Micky van de Ven","Jorrel Hato","Ryan Gravenberch","Tijjani Reijnders","Joey Veerman","Quinten Timber","Teun Koopmeiners","Kenneth Taylor","Justin Kluivert","Gjivai Zechiël","Crysencio Summerville","Donyell Malen","Brian Brobbey","Cody Gakpo","Noa Lang","Ruben van Bommel"],
+"GER1":["Hennes Behrens","Yann Aurel Bisseck","Nathaniel Brown","Max Rosenfelder","Nico Schlotterbeck","Jonathan Tah","Philipp Treu","Josha Vagnoman","Nadiem Amiri","Bambasé Conté","Yannik Engelhardt","Chris Führich","Serge Gnabry","Lennart Karl","Joshua Kimmich","Jamal Musiala","Felix Nmecha","Kevin Schade","Anton Stach","Younes Ebnoutalib","Kai Havertz"],
+"GER2":["Waldemar Anton","Ridle Baku","Finn Jeltsch","Maximilian Mittelstädt","David Raum","Malick Thiaw","Karim Adeyemi","Mika Baur","Tom Bischof","Said El Mala","Brajan Gruda","Vitaly Janelt","Felix Keidel","Aleksandar Pavlović","Derry Scherhant","Florian Wirtz","Jonathan Burkardt","Nick Woltemade"],
+"POR":["Gonçalo Inácio","João Cancelo","Diogo Dalot","Nuno Tavares","Nuno Mendes","Renato Veiga","Rúben Dias","Tomás Araújo","Bruno Fernandes","João Palhinha","João Neves","Rúben Neves","Vitinha","Bernardo Silva","Cristiano Ronaldo","Fábio Silva","Francisco Trincão","Francisco Conceição","Gonçalo Ramos","João Félix","Pedro Neto","Rafael Leão"],
+"WAL":["Jay Dasilva","Jayden Lienou","Ben Davies","Rhys Norrington-Davies","Chris Mepham","Ben Cabango","Neco Williams","Connor Roberts","Ethan Ampadu","Josh Sheehan","Jordan James","Liam Cullen","Joel Colwill","Harry Wilson","Nathan Broadhead","Cian Ashford","Brennan Johnson","Sorba Thomas","Cameron Congreve","Lewis Koumas","Kieffer Moore","Mark Harris","Dan James","David Brooks","Wes Burns"],
+"ITA":["Honest Ahanor","Alessandro Bastoni","Riccardo Calafiori","Diego Coppola","Giovanni Di Lorenzo","Federico Dimarco","Daniele Ghilardi","Michel Kayode","Eddie Kwaidoo","Gianluca Mancini","Giorgio Scalvini","Nicolò Barella","Bryan Cristante","Issa Doumbia","Niccolò Fagioli","Davide Frattesi","Rolando Mandragora","Alessandro Romano","Sandro Tonali","Nicolò Cambiaghi","Francesco Pio Esposito","Sebastiano Esposito","Samuele Inacio","Moise Kean","Daniel Maldini","Giacomo Raspadori","Gianluca Scamacca","Antonio Vergara","Nicolò Zaniolo","Mohamed Ali Zoma"],
+"BEL":["Brandon Mechele","Nathan Ngoy","Kyriani Sabbe","Joaquin Seys","Arthur Theate","Timothy Castagne","Zeno Debast","Maxim De Cuyper","Koni De Winter","Nicolas Raskin","Youri Tielemans","Hans Vanaken","Kevin De Bruyne","Mandela Keita","Roméo Lavia","Mika Godts","Romelu Lukaku","Dodi Lukebakio","Diego Moreira","Loïs Openda","Leandro Trossard","Charles De Ketelaere","Matias Fernandez-Pardo","Malick Fofana"],
+"TUR":["Zeki Çelik","Eren Elmalı","Merih Demiral","Samet Akaydin","Çağlar Söyüncü","Yusuf Akçiçek","Abdülkerim Bardakcı","Ozan Kabak","Mert Müldür","Ferdi Kadıoğlu","Mustafa Eskihellaç","Hakan Çalhanoğlu","Orkun Kökçü","İsmail Yüksek","Salih Özcan","Kaan Ayhan","İrfan Can Kahveci","Arda Güler","Kenan Yıldız","Barış Alper Yılmaz","Kerem Aktürkoğlu","Yunus Akgün","Semih Kılıçsoy"],
+"FRA":["Andy Diouf","Jérémy Jacquet","Ibrahima Konaté","Pierre Kalulu","Jules Koundé","Maxence Lacroix","Adrien Truffert","Dayot Upamecano","Eduardo Camavinga","Rayan Cherki","Lucas Da Cunha","Manu Koné","Adrien Rabiot","Warren Zaïre-Emery","Bradley Barcola","Ousmane Dembélé","Désiré Doué","Esteban Lepaul","Kylian Mbappé","Michael Olise"],
+"ENG":["Trent Alexander-Arnold","Jarrad Branthwaite","Trevoh Chalobah","Marc Guéhi","Lewis Hall","Ezri Konsa","Tino Livramento","Nico O'Reilly","Jarell Quansah","Elliot Anderson","Jude Bellingham","Myles Lewis-Skelly","Kobbie Mainoo","Cole Palmer","Declan Rice","Alex Scott","Dominic Calvert-Lewin","Eberechi Eze","Anthony Gordon","Harry Kane","Rio Ngumoha","Marcus Rashford","Morgan Rogers","Bukayo Saka"],
+"ESP":["Pedro Porro","Aymeric Laporte","Pau Cubarsí","Marc Pubill","Eric García","Marc Cucurella","Alejandro Grimaldo","Dean Huijsen","Rodrigo Hernández","Martín Zubimendi","Pedri González","Fabián Ruiz","Mikel Merino","Fermín López","Álex Baena","Mikel Oyarzabal","Lamine Yamal","Ferran Torres","Roberto Fernández","Dani Olmo","Víctor Muñoz","Nico Williams","Yeremy Pino"],
+"SRB":["Strahinja Pavlović","Strahinja Eraković","Srđan Babić","Nikola Simić","Kosta Nedeljković","Aleksa Terzić","Petar Sukačev","Lazar Nikolić","Aleksandar Stanković","Nemanja Maksimović","Sergej Milinković-Savić","Saša Lukić","Nemanja Gudelj","Vanja Dragojević","Lazar Samardžić","Andrija Živković","Filip Kostić","Stefan Džodić","Vasilije Kostov","Dušan Tadić","Dušan Vlahović","Luka Jović","Dejan Joveljić","Mihajlo Cvetković","Jovan Milošević"],
+"GRE":["Georgios Vagiannidis","Konstantinos Koulierakis","Konstantinos Mavropanos","Panagiotis Retsos","Giannis Masouras","Dimitris Giannoulis","Nectarios Triantis","Andreas Ntoi","Lazaros Rota","Pantelis Hatzidiakos","Sotiris Kontouris","Dimitris Kourbelis","Christos Mouzakitis","Anastasios Bakasetas","Christos Zafeiris","Giannis Konstantelias","Konstantinos Karetsas","Giorgos Masouras","Tasos Douvikas","Christos Tzolis","Andreas Tetteh","Vangelis Pavlidis","Charalampos Kostoulas","Alexandros Kyziridis"],
+"NOR":["Kristoffer Ajer","Julian Ryerson","Leo Østigård","Patrick Berg","Kristian Thorstvedt","Fredrik Aursnes","Thelo Aasgaard","Erling Haaland","Jørgen Strand Larsen","Antonio Nusa","Oscar Bobb","Andreas Schjelderup","Erik Botheim","Ole Didrik Blomberg"],
+"CRO":["Joško Gvardiol","Josip Juranović","Josip Šutalo","Luka Vušković","Ivan Smolčić","Josip Stanišić","Martin Erlić","Luka Modrić","Mateo Kovačić","Mario Pašalić","Nikola Vlašić","Petar Sučić","Luka Sučić","Josip Mišić","Martin Baturina","Ivan Perišić","Andrej Kramarić","Ante Budimir","Igor Matanović","Franjo Ivanović","Dion Drena Beljo","Marco Pašalić","Petar Musa"],
+"CZE":["Vladimír Coufal","Ladislav Krejčí","Tomáš Holeš","Robin Hranáč","Štěpán Chaloupek","Václav Jemelka","Matěj Ryneš","Martin Vitík","David Zima","David Douděra","David Jurásek","Jaroslav Zelený","Vladimír Darida","Lukáš Červ","Michal Sadílek","Tomáš Souček","Alexandr Sojka","Hugo Sochurek","Adam Hložek","Lukáš Provod","Pavel Šulc","Denis Višinský","Patrik Schick","Jan Kuchta","Mojmír Chytil","Tomáš Chorý"],
+"DEN":["Joachim Andersen","Alexander Bah","Victor Kristiansen","Joakim Mæhle","Rasmus Kristensen","Mads Roerslev","Victor Nelsson","Andreas Christensen","Morten Hjulmand","Pierre-Emile Højbjerg","Victor Froholdt","Albert Grønbæk","Mads Bidstrup","Mikkel Damsgaard","Adam Daghim","Rasmus Højlund","Kasper Høgh","Gustav Isaksen","Kasper Dolberg"]
+};
+
+const teamInfo = {NED:"Países Bajos",GER:"Alemania",POR:"Portugal",WAL:"Gales",ITA:"Italia",BEL:"Bélgica",TUR:"Turquía",FRA:"Francia",ENG:"Inglaterra",ESP:"España",SRB:"Serbia",GRE:"Grecia",NOR:"Noruega",CRO:"Croacia",CZE:"R. Checa",DEN:"Dinamarca"};
+
+const matches = [
+{id:"m01",block:1,date:"24/09/2026",time:"20:45",home:"NED",away:"GER",squadHome:"NED",squadAway:"GER1"},
+{id:"m02",block:1,date:"25/09/2026",time:"20:45",home:"ITA",away:"BEL",squadHome:"ITA",squadAway:"BEL"},
+{id:"m03",block:1,date:"26/09/2026",time:"20:45",home:"ENG",away:"ESP",squadHome:"ENG",squadAway:"ESP"},
+{id:"m04",block:1,date:"27/09/2026",time:"20:45",home:"NOR",away:"POR",squadHome:"NOR",squadAway:"POR"},
+{id:"m05",block:1,date:"28/09/2026",time:"20:45",home:"BEL",away:"FRA",squadHome:"BEL",squadAway:"FRA"},
+{id:"m06",block:1,date:"29/09/2026",time:"20:45",home:"ESP",away:"CRO",squadHome:"ESP",squadAway:"CRO"},
+{id:"m07",block:2,date:"01/10/2026",time:"20:45",home:"GER",away:"SRB",squadHome:"GER2",squadAway:"SRB"},
+{id:"m08",block:2,date:"01/10/2026",time:"20:45",home:"GRE",away:"NED",squadHome:"GRE",squadAway:"NED"},
+{id:"m09",block:2,date:"01/10/2026",time:"20:45",home:"DEN",away:"POR",squadHome:"DEN",squadAway:"POR"},
+{id:"m10",block:2,date:"02/10/2026",time:"20:45",home:"FRA",away:"ITA",squadHome:"FRA",squadAway:"ITA"},
+{id:"m11",block:2,date:"03/10/2026",time:"18:00",home:"CRO",away:"ENG",squadHome:"CRO",squadAway:"ENG"},
+{id:"m12",block:2,date:"03/10/2026",time:"20:45",home:"ESP",away:"CZE",squadHome:"ESP",squadAway:"CZE"},
+{id:"m13",block:3,date:"04/10/2026",time:"20:45",home:"GRE",away:"GER",squadHome:"GRE",squadAway:"GER2"},
+{id:"m14",block:3,date:"04/10/2026",time:"20:45",home:"NED",away:"SRB",squadHome:"NED",squadAway:"SRB"},
+{id:"m15",block:3,date:"04/10/2026",time:"20:45",home:"POR",away:"NOR",squadHome:"POR",squadAway:"NOR"},
+{id:"m16",block:3,date:"05/10/2026",time:"20:45",home:"FRA",away:"BEL",squadHome:"FRA",squadAway:"BEL"},
+{id:"m17",block:3,date:"05/10/2026",time:"20:45",home:"ITA",away:"TUR",squadHome:"ITA",squadAway:"TUR"},
+{id:"m18",block:3,date:"06/10/2026",time:"20:45",home:"CRO",away:"ESP",squadHome:"CRO",squadAway:"ESP"}
+];
+
+let session = JSON.parse(localStorage.getItem("lfc_session")||"null");
+let db = JSON.parse(localStorage.getItem("lfc_db")||'{"featured":{},"featuredStatus":{},"predictions":{},"results":{}}');
+db.featuredStatus = db.featuredStatus || {};
+
+function save(){localStorage.setItem("lfc_db",JSON.stringify(db))}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function getP(){return participants.find(p=>p.id===session?.id)}
+function deadline(block){return block===1?"2026-09-24T19:45:00+02:00":block===2?"2026-10-01T19:45:00+02:00":"2026-10-04T19:45:00+02:00"}
+function closed(block){return Date.now()>=new Date(deadline(block)).getTime()}
+function fmtMoney(n){return new Intl.NumberFormat("es-ES").format(n)+" €"}
+function x1x2(h,a){if(h==null||a==null||h===""||a==="")return "";h=+h;a=+a;return h>a?"1":h<a?"2":"X"}
+function allScorers(m){return [...(squads[m.squadHome]||[]),...(squads[m.squadAway]||[])].sort((a,b)=>a.localeCompare(b,"es"))}
+function predKey(pid,mid){return pid+"_"+mid}
+function getPred(pid,mid){return db.predictions[predKey(pid,mid)]||{outcome:"",hs:"",as:"",scorer:""}}
+
+function loginView(){
+return `<div class="card login hero">
+<img class="logoBig" src="LFC Biwenger(1).png">
+<h2>Entrar en Super Parón LFC</h2>
+<p class="muted" style="text-align:center">Selecciona tu equipo e introduce tu código privado.</p>
+<div class="control"><label>Equipo Biwenger</label><select id="loginTeam"><option value="">Selecciona...</option>${participants.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("")}</select></div>
+<div class="control" style="margin-top:10px"><label>Código privado</label><input id="loginPass" type="password" placeholder="Código"></div>
+<div id="loginError" class="error"></div>
+<div class="actions"><button class="btn primary" onclick="doLogin()">Entrar</button><button class="btn" onclick="adminLogin()">Acceso administrador</button></div>
+<div class="notice warning small">Esta primera versión es una maqueta funcional para probar el juego. Antes de publicarla en GitHub para uso real, hay que conectar el almacenamiento compartido y proteger los permisos con Supabase.</div>
+</div>`;
+}
+function doLogin(){const id=document.getElementById("loginTeam").value,p=document.getElementById("loginPass").value,ok=participants.find(x=>x.id===id&&x.password===p);if(!ok){document.getElementById("loginError").textContent="Equipo o código incorrecto.";return}session={id};localStorage.setItem("lfc_session",JSON.stringify(session));render()}
+function adminLogin(){const pin=prompt("PIN de administrador");if(pin===CONFIG.adminPin){session={admin:true};localStorage.setItem("lfc_session",JSON.stringify(session));render()}else alert("PIN incorrecto.")}
+function logout(){session=null;localStorage.removeItem("lfc_session");render()}
+
+function nav(active){
+return `<div class="tabs">
+<button class="tab ${active==="home"?"active":""}" onclick="renderPage('home')">🏠 Inicio</button>
+<button class="tab ${active==="featured"?"active":""}" onclick="renderPage('featured')">⭐ Mi goleador</button>
+<button class="tab ${active==="b1"?"active":""}" onclick="renderPage('b1')">1️⃣ Bloque 1</button>
+<button class="tab ${active==="b2"?"active":""}" onclick="renderPage('b2')">2️⃣ Bloque 2</button>
+<button class="tab ${active==="b3"?"active":""}" onclick="renderPage('b3')">3️⃣ Bloque 3</button>
+<button class="tab ${active==="ranking"?"active":""}" onclick="renderPage('ranking')">🏆 Clasificación</button>
+${session?.admin?`<button class="tab ${active==="admin"?"active":""}" onclick="renderPage('admin')">⚙️ Administración</button>`:""}
+<span style="margin-left:auto"><button class="tab" onclick="logout()">Salir</button></span>
+</div>`;
+}
+function home(){
+const p=getP(); return `${nav("home")}
+<div class="card hero"><div class="section-title"><div><h2>🏆 SUPER PARÓN LFC</h2><p class="muted">Predice, acierta y gana abonos para tu equipo de Biwenger durante el parón internacional.</p></div><span class="pill">${session.admin?"ADMINISTRADOR":esc(p.name)}</span></div>
+<div class="prizes"><span class="prize">1X2: <b>100.000 €</b></span><span class="prize">Resultado exacto: <b>250.000 €</b></span><span class="prize">Goleador: <b>50.000 €</b></span><span class="prize">Pleno bloque: <b>1.000.000 €</b></span><span class="prize">⭐ Mi jugador: <b>200.000 €</b></span></div></div>
+<div class="grid">
+<div class="card"><h3>⭐ Elige tu goleador LFC</h3><p class="muted">Elige un jugador de tu plantilla antes del 24/09 a las 19:45. Si marca durante el parón, ganas 200.000 €.</p><button class="btn primary" onclick="renderPage('featured')">Elegir jugador</button></div>
+<div class="card"><h3>📅 Tres bloques</h3><p class="muted">Cada bloque se cierra una hora antes de su primer partido. Puedes modificar tus predicciones hasta el cierre.</p><div class="small">Bloque 1: 6 partidos · Bloque 2: 6 · Bloque 3: 6</div></div>
+<div class="card"><h3>🏆 Clasificación</h3><p class="muted">Consulta aciertos 1X2, exactos, goleadores, plenos y el bonus de tu jugador.</p><button class="btn" onclick="renderPage('ranking')">Ver clasificación</button></div>
+</div>`;
+}
+function featured(){
+const p=getP(); const val=db.featured[p.id]||"";
+return `${nav("featured")}<div class="card hero"><h2>⭐ Elige tu goleador</h2><p class="muted">Elige un jugador de <b>${esc(p.name)}</b>. Si ese jugador marca durante este parón en cualquiera de los partidos contemplados, tu equipo recibe <b>200.000 €</b>.</p><span class="deadline">⏰ Fecha máxima: 24/09/2026 · 19:45</span>
+<div style="margin-top:15px" class="control"><label>Jugador elegido</label><select id="featuredPlayer" ${closed(1)?"disabled":""}><option value="">Selecciona tu jugador...</option>${p.players.map(x=>`<option ${val===x?"selected":""}>${esc(x)}</option>`).join("")}</select></div>
+${closed(1)?`<div class="notice warning">La elección está cerrada.</div>`:"<div class=\"actions\"><button class=\"btn primary\" onclick=\"saveFeatured()\">Guardar elección</button></div>"}
+${val?`<div class="notice">⭐ Tu elegido: <b>${esc(val)}</b> · Bonus potencial: <b>200.000 €</b></div>`:""}</div>`;
+}
+function saveFeatured(){const v=document.getElementById("featuredPlayer").value;if(!v)return alert("Elige un jugador.");db.featured[getP().id]=v;save();renderPage("featured")}
+
+function blockPage(block){
+const ms=matches.filter(m=>m.block===block); let html=`${nav("b"+block)}<div class="card hero"><div class="section-title"><div><h2>${block===1?"1️⃣":"2️⃣".replace("2️⃣",block===2?"2️⃣":"3️⃣")} Bloque ${block}</h2><p class="muted">1X2 + resultado exacto + goleador. El goleador se ofrece únicamente entre los convocados de las dos selecciones del partido, sin porteros.</p></div><span class="deadline">⏰ Cierre: ${new Date(deadline(block)).toLocaleString("es-ES",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})}</span></div>
+<div class="prizes"><span class="prize">1X2: <b>100.000 €</b></span><span class="prize">Resultado exacto: <b>250.000 €</b></span><span class="prize">Goleador: <b>50.000 €</b></span><span class="prize">Pleno del bloque: <b>1.000.000 €</b></span></div></div><div class="grid">`;
+for(const m of ms) html+=matchCard(m);
+html+=`</div><div class="card"><div class="actions"><button class="btn primary" ${closed(block)?"disabled":""} onclick="saveBlock(${block})">💾 Guardar bloque ${block}</button></div><div id="saveMsg"></div></div>`;
+return html;
+}
+function matchCard(m){
+const p=session.admin?null:getP(); const d=p?getPred(p.id,m.id):{outcome:"",hs:"",as:"",scorer:""}; const opts=allScorers(m);
+return `<div class="match"><div class="match-head"><span class="date">${m.date} · ${m.time}</span><span class="pill">Bloque ${m.block}</span></div><div class="teams">${teamInfo[m.home]} 🇪🇺<br><span class="muted" style="font-size:12px">vs</span><br>🇪🇺 ${teamInfo[m.away]}</div>
+<div class="controls"><div class="control xwide"><label>1X2</label><select id="o_${m.id}" ${closed(m.block)||session.admin?"disabled":""}><option value="">Selecciona...</option><option ${d.outcome==="1"?"selected":""} value="1">1 · ${teamInfo[m.home]}</option><option ${d.outcome==="X"?"selected":""} value="X">X · Empate</option><option ${d.outcome==="2"?"selected":""} value="2">2 · ${teamInfo[m.away]}</option></select></div>
+<div class="control"><label>Goles ${teamInfo[m.home]}</label><input id="h_${m.id}" type="number" min="0" max="20" value="${esc(d.hs)}" ${closed(m.block)||session.admin?"disabled":""}></div>
+<div class="control"><label>Goles ${teamInfo[m.away]}</label><input id="a_${m.id}" type="number" min="0" max="20" value="${esc(d.as)}" ${closed(m.block)||session.admin?"disabled":""}></div>
+<div class="control xwide"><label>Goleador (convocados, sin porteros)</label><select id="s_${m.id}" ${closed(m.block)||session.admin?"disabled":""}><option value="">Selecciona...</option><option value="NONE" ${d.scorer==="NONE"?"selected":""}>🚫 Sin goleador</option>${opts.map(x=>`<option ${d.scorer===x?"selected":""}>${esc(x)}</option>`).join("")}</select></div></div></div>`;
+}
+function saveBlock(block){
+if(closed(block))return alert("El bloque ya está cerrado.");
+const p=getP(); for(const m of matches.filter(x=>x.block===block)){db.predictions[predKey(p.id,m.id)]={outcome:document.getElementById("o_"+m.id).value,hs:document.getElementById("h_"+m.id).value,as:document.getElementById("a_"+m.id).value,scorer:document.getElementById("s_"+m.id).value}}save();document.getElementById("saveMsg").innerHTML='<div class="notice">Predicciones guardadas correctamente.</div>';setTimeout(()=>renderPage("b"+block),500)
+}
+
+function ranking(){
+const selected = window.rankBlock||0;
+const buttons=[0,1,2,3].map(b=>`<button class="tab ${selected===b?"active":""}" onclick="window.rankBlock=${b};window.openPred=null;renderPage('ranking')">${b===0?"Todos":"Bloque "+b}</button>`).join("");
+let rows=participants.map(p=>scoreParticipant(p.id,selected)).sort((a,b)=>b.money-a.money);
+const me=session?.admin?null:getP()?.id;
+const detailPid=window.openPred;
+const detail = detailPid ? renderPredictionDetail(detailPid, selected) : "";
+const showFeatured = selected===0;
+return `${nav("ranking")}<div class="card hero"><div class="section-title"><div><h2>🏆 Clasificación</h2><p class="muted">Abonos conseguidos por cada equipo. Filtra por bloque o consulta el total. Las predicciones rivales solo se muestran cuando el bloque correspondiente ya está cerrado.</p></div></div><div class="tabs" style="margin-top:12px">${buttons}</div><div class="tablewrap"><table class="table"><thead><tr><th>Equipo</th><th>💰 Abonos</th><th>1X2</th><th>Exactos</th><th>Goleadores</th><th>Pleno</th>${showFeatured?"<th>⭐ Jugador LFC</th>":""}<th>Predicciones</th></tr></thead><tbody>${rows.map((r,i)=>{
+const canView = me===r.id || (selected>0 ? closed(selected) : [1,2,3].some(b=>closed(b)));
+const label = me===r.id ? "Ver mis predicciones" : (canView?"Ver predicciones":"🔒 Bloque abierto");
+return `<tr><td><b>${i+1}. ${esc(r.name)}</b></td><td class="money">${fmtMoney(r.money)}</td><td>${r.outcome}</td><td>${r.exact}</td><td>${r.scorer}</td><td>${r.blockBonus}</td>${showFeatured?`<td>${r.featuredPlayer?esc(r.featuredPlayer)+" · "+r.playerStatus:"—"}</td>`:""}<td><button class="btn small" ${canView?`onclick="window.openPred='${r.id}';renderPage('ranking')"`:"disabled"}>${label}</button></td></tr>`;
+}).join("")}</tbody></table></div></div>${detail}`;
+}
+function scoreParticipant(pid,blockFilter){
+let money=0,outcome=0,exact=0,scorer=0,bonusBlocks=0;
+const blocks=blockFilter?[blockFilter]:[1,2,3];
+for(const b of blocks){
+ const ms=matches.filter(m=>m.block===b);
+ const blockFinished=ms.every(m=>db.results[m.id] && db.results[m.id].hs!=="" && db.results[m.id].as!=="");
+ let allExact=true;
+ for(const m of ms){
+  const r=db.results[m.id]; const p=getPred(pid,m.id);
+  if(!r || r.hs==="" || r.as===""){allExact=false;continue;}
+  const actualOutcome=x1x2(r.hs,r.as);
+  if(p.outcome && p.outcome===actualOutcome){outcome++;money+=CONFIG.prizes.outcome;}
+  const ex=(p.hs!==""&&p.as!==""&&+p.hs===+r.hs&&+p.as===+r.as);
+  if(ex){exact++;money+=CONFIG.prizes.exact;}else allExact=false;
+  const sc=p.scorer!=="" && ((p.scorer==="NONE" && (r.scorers||[]).length===0) || (p.scorer!=="NONE" && (r.scorers||[]).includes(p.scorer)));
+  if(sc){scorer++;money+=CONFIG.prizes.scorer;}
+ }
+ if(blockFinished && ms.length && allExact){bonusBlocks++;money+=CONFIG.prizes.block;}
+}
+let featuredPlayer=db.featured[pid]||"";
+let playerStatus="—";
+if(featuredPlayer){
+ const status=db.featuredStatus[pid];
+ const relevantMatches=matches.filter(m=>[m.squadHome,m.squadAway].some(key=>(squads[key]||[]).includes(featuredPlayer)));
+ const hasFuture=relevantMatches.some(m=>new Date(m.date.split("/").reverse().join("-")+"T"+m.time+":00+02:00")>new Date());
+ if(status===true){if(!blockFilter) money+=CONFIG.playerBonus;playerStatus="✅";}
+ else if(status===false){playerStatus="❌";}
+ else if(!relevantMatches.length || !hasFuture){playerStatus="❌";}
+ else playerStatus="⏳";
+}
+const blockBonus=blockFilter?blockStatus(blockFilter,pid):[1,2,3].map(b=>`B${b} ${blockStatus(b,pid)}`).join(" · ");
+return {id:pid,name:participants.find(x=>x.id===pid).name,money,outcome,exact,scorer,blockBonus,playerStatus,featuredPlayer};
+}
+function blockStatus(block,pid){
+ const ms=matches.filter(m=>m.block===block);
+ const finished=ms.every(m=>db.results[m.id]&&db.results[m.id].hs!==""&&db.results[m.id].as!=="");
+ if(!finished)return "⏳";
+ const allExact=ms.every(m=>{const r=db.results[m.id],p=getPred(pid,m.id);return p.hs!==""&&p.as!==""&&+p.hs===+r.hs&&+p.as===+r.as;});
+ return allExact?"✅":"❌";
+}
+function renderPredictionDetail(pid, selected){
+ const p=participants.find(x=>x.id===pid); if(!p)return "";
+ const blocks=selected?[selected]:[1,2,3];
+ let html=`<div class="card"><div class="section-title"><h3>📋 Predicciones de ${esc(p.name)}</h3><button class="btn" onclick="window.openPred=null;renderPage('ranking')">Cerrar</button></div>`;
+ for(const b of blocks){
+  const allowed=(pid===(session?.id))||closed(b);
+  html+=`<div style="margin-top:16px"><h3>Bloque ${b} ${closed(b)?"🔓":"🔒"}</h3>`;
+  if(!allowed){html+=`<div class="notice warning">Las predicciones de este bloque todavía están ocultas hasta que se cierre.</div></div>`;continue;}
+  html+=`<div class="tablewrap"><table class="table"><thead><tr><th>Partido</th><th>1X2</th><th>Marcador</th><th>Goleador</th><th>Estado</th></tr></thead><tbody>`;
+  for(const m of matches.filter(x=>x.block===b)){
+   const pred=getPred(pid,m.id),r=db.results[m.id];
+   const actual=r&&r.hs!==""&&r.as!==""?`${r.hs}-${r.as}`:"—";
+   const outActual=r?x1x2(r.hs,r.as):"";
+   const outOk=r&&pred.outcome&&pred.outcome===outActual;
+   const exactOk=r&&pred.hs!==""&&pred.as!==""&&+pred.hs===+r.hs&&+pred.as===+r.as;
+   const scorerOk=r&&pred.scorer!==""&&((pred.scorer==="NONE"&&(r.scorers||[]).length===0)||(pred.scorer!=="NONE"&&(r.scorers||[]).includes(pred.scorer)));
+   const resultState=r?`<span class="small muted">Real: ${actual}</span>`:'<span class="pending">⏳ Pendiente</span>';
+   html+=`<tr><td>${esc(teamInfo[m.home])} - ${esc(teamInfo[m.away])}<br>${resultState}</td><td>${pred.outcome||"—"} ${r?(outOk?"<span class='ok'>✓</span>":"<span class='bad'>✗</span>"):""}</td><td>${pred.hs!==""&&pred.as!==""?esc(pred.hs)+"-"+esc(pred.as):"—"} ${r?(exactOk?"<span class='ok'>✓</span>":"<span class='bad'>✗</span>"):""}</td><td>${pred.scorer==="NONE"?"Sin goleador":esc(pred.scorer||"—")} ${r?(scorerOk?"<span class='ok'>✓</span>":"<span class='bad'>✗</span>"):""}</td><td>${r?"Comprobado":"Pendiente"}</td></tr>`;
+  }
+  html+=`</tbody></table></div></div>`;
+ }
+ return html+`</div>`;
+}
+function admin(){
+return `${nav("admin")}<div class="card hero"><h2>⚙️ Administración</h2><p class="muted">Introduce resultados, varios goleadores y gestiona manualmente el bonus del jugador LFC. También puedes editar o borrar predicciones de cualquier participante.</p></div>
+<div class="card"><h3>Resultados de partidos</h3><p class="small muted">Puedes seleccionar <b>varios goleadores</b> manteniendo Ctrl/Cmd al hacer clic. Para 0-0 puedes dejar todos sin seleccionar.</p>
+${matches.map(m=>{const r=db.results[m.id]||{hs:"",as:"",scorers:[]};return `<div class="card" style="background:#0c1015"><div class="section-title"><b>${m.date} · ${teamInfo[m.home]} - ${teamInfo[m.away]}</b><span class="pill">Bloque ${m.block}</span></div><div class="admin-row" style="margin-top:10px"><div><label class="small muted">Goles ${teamInfo[m.home]}</label><input id="rh_${m.id}" type="number" min="0" value="${r.hs??""}"></div><div><label class="small muted">Goles ${teamInfo[m.away]}</label><input id="ra_${m.id}" type="number" min="0" value="${r.as??""}"></div><div><label class="small muted">Goleadores</label><select id="rs_${m.id}" multiple size="5">${allScorers(m).map(x=>`<option ${r.scorers?.includes(x)?"selected":""}>${esc(x)}</option>`).join("")}</select></div></div><div class="actions"><button class="btn primary" onclick="saveResult('${m.id}')">Guardar resultado</button></div></div>`}).join("")}</div>
+<div class="card"><h3>⭐ Bonus jugador elegido</h3><p class="small muted">Selecciona manualmente el estado. El bonus de 200.000 € se suma una sola vez en la clasificación global.</p><div class="tablewrap"><table class="table"><thead><tr><th>Equipo</th><th>Jugador elegido</th><th>Estado</th></tr></thead><tbody>${participants.map(p=>{const f=db.featured[p.id];const st=db.featuredStatus[p.id];return `<tr><td>${esc(p.name)}</td><td>${f?esc(f):"—"}</td><td><select onchange="setFeaturedStatus('${p.id}',this.value)" ${f?"":"disabled"}><option value="" ${st===undefined?"selected":""}>⏳ Pendiente</option><option value="yes" ${st===true?"selected":""}>✅ Sí, ha marcado</option><option value="no" ${st===false?"selected":""}>❌ No ha marcado</option></select></td></tr>`}).join("")}</tbody></table></div></div>
+<div class="card"><h3>🛠️ Editar / borrar predicciones</h3><p class="small muted">Puedes corregir una predicción individual después de que un participante se haya equivocado. El cambio queda guardado en el navegador en esta versión de prueba.</p>${participants.map(p=>`<div class="card" style="background:#0c1015"><div class="section-title"><b>${esc(p.name)}</b><span class="pill">${p.password}</span></div>${[1,2,3].map(b=>`<details style="margin-top:10px"><summary><b>Bloque ${b}</b></summary><div style="margin-top:10px">${matches.filter(m=>m.block===b).map(m=>adminPredictionEditor(p,m)).join("")}</div></details>`).join("")}</div>`).join("")}</div>`;
+}
+function adminPredictionEditor(p,m){
+ const d=getPred(p.id,m.id); const opts=allScorers(m);
+ return `<div class="match" style="margin-bottom:8px"><div class="small"><b>${esc(teamInfo[m.home])} - ${esc(teamInfo[m.away])}</b> · ${m.date}</div><div class="controls" style="margin-top:8px"><div class="control"><label>1X2</label><select id="ap_o_${p.id}_${m.id}"><option value="">—</option><option value="1" ${d.outcome==="1"?"selected":""}>1</option><option value="X" ${d.outcome==="X"?"selected":""}>X</option><option value="2" ${d.outcome==="2"?"selected":""}>2</option></select></div><div class="control"><label>Goleador</label><select id="ap_s_${p.id}_${m.id}"><option value="">—</option><option value="NONE" ${d.scorer==="NONE"?"selected":""}>Sin goleador</option>${opts.map(x=>`<option ${d.scorer===x?"selected":""}>${esc(x)}</option>`).join("")}</select></div><div class="control"><label>Goles local</label><input id="ap_h_${p.id}_${m.id}" type="number" min="0" value="${esc(d.hs)}"></div><div class="control"><label>Goles visitante</label><input id="ap_a_${p.id}_${m.id}" type="number" min="0" value="${esc(d.as)}"></div></div><div class="actions"><button class="btn primary" onclick="adminSavePrediction('${p.id}','${m.id}')">Guardar cambios</button><button class="btn red" onclick="adminDeletePrediction('${p.id}','${m.id}')">Borrar predicción</button></div></div>`;
+}
+function saveResult(id){
+ const hs=document.getElementById("rh_"+id).value,as=document.getElementById("ra_"+id).value;
+ const sc=[...document.getElementById("rs_"+id).selectedOptions].map(o=>o.value);
+ db.results[id]={...(db.results[id]||{}),hs,as,scorers:sc};save();renderPage("admin");
+}
+function setFeaturedStatus(pid,value){
+ if(!db.featuredStatus)db.featuredStatus={};
+ db.featuredStatus[pid]=value==="yes"?true:value==="no"?false:undefined;
+ if(value==="")delete db.featuredStatus[pid];
+ save();renderPage("admin");
+}
+function adminSavePrediction(pid,mid){
+ const key=predKey(pid,mid);
+ db.predictions[key]={outcome:document.getElementById(`ap_o_${pid}_${mid}`).value,hs:document.getElementById(`ap_h_${pid}_${mid}`).value,as:document.getElementById(`ap_a_${pid}_${mid}`).value,scorer:document.getElementById(`ap_s_${pid}_${mid}`).value};
+ save();renderPage("admin");
+}
+function adminDeletePrediction(pid,mid){
+ if(!confirm("¿Borrar esta predicción?"))return;
+ delete db.predictions[predKey(pid,mid)];save();renderPage("admin");
+}
+
+function renderPage(page){
+const app=document.getElementById("app"); if(page==="home")app.innerHTML=home(); else if(page==="featured")app.innerHTML=featured(); else if(page==="b1")app.innerHTML=blockPage(1); else if(page==="b2")app.innerHTML=blockPage(2); else if(page==="b3")app.innerHTML=blockPage(3); else if(page==="ranking")app.innerHTML=ranking(); else if(page==="admin")app.innerHTML=admin();
+}
+function render(){if(!session){document.getElementById("app").innerHTML=loginView();return}renderPage("home")}
+render();
+</script>
+</body>
+</html>

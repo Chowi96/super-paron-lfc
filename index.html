@@ -10,6 +10,19 @@
 a{color:inherit}.wrap{max-width:1180px;margin:auto;padding:20px}.top{display:flex;align-items:center;gap:18px;padding:12px 0 20px}.logo{width:74px;height:74px;object-fit:contain}.brand h1{margin:0;font-size:32px;letter-spacing:.5px}.brand p{margin:5px 0 0;color:var(--muted)}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}.tab{border:1px solid var(--border);background:var(--panel);color:#fff;padding:11px 15px;border-radius:10px;cursor:pointer;font-weight:700}.tab.active{border-color:var(--blue);box-shadow:0 0 0 1px #00a7e155 inset;background:#0b1d29}.card{background:rgba(16,20,25,.95);border:1px solid var(--border);border-radius:15px;padding:18px;margin:12px 0;box-shadow:0 10px 35px #0005}.hero{border-left:4px solid var(--red);border-right:4px solid var(--blue)}h2{margin:0 0 7px}h3{margin:0 0 8px}.muted{color:var(--muted)}.deadline{display:inline-block;padding:6px 10px;border-radius:999px;background:#231316;border:1px solid #5d2329;color:#ffadb1;font-size:13px;font-weight:700}.prizes{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.prize{padding:8px 11px;background:#0b1116;border:1px solid var(--border);border-radius:9px;font-size:13px}.prize b{color:var(--yellow)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px}.match{border:1px solid var(--border);background:var(--panel2);border-radius:13px;padding:14px}.match-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:12px}.date{font-size:12px;color:var(--muted)}.teams{text-align:center;font-size:18px;font-weight:800;margin:10px 0 13px}.controls{display:grid;grid-template-columns:1fr 1fr;gap:8px}.control label{display:block;font-size:11px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}.control input,.control select,.login input,.login select,.admin input,.admin select,.admin textarea{width:100%;padding:10px;border-radius:9px;border:1px solid #343c46;background:#080b0f;color:#fff;outline:none}.control input:focus,.control select:focus,.login input:focus{border-color:var(--blue)}.xwide{grid-column:1/-1}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.btn{padding:10px 14px;border-radius:9px;border:1px solid var(--border);background:#171d24;color:#fff;cursor:pointer;font-weight:800}.btn.primary{background:linear-gradient(90deg,#006e9e,#00a7e1);border:0}.btn.red{background:linear-gradient(90deg,#a10e15,#ff2028);border:0}.btn:disabled{opacity:.45;cursor:not-allowed}.notice{padding:10px 12px;border-radius:10px;background:#101a13;border:1px solid #24452f;color:#aef2c8;margin-top:10px}.warning{background:#241e0d;border-color:#574817;color:#ffe39a}.login{max-width:520px;margin:30px auto}.login h2{text-align:center}.error{color:#ff8c91;margin-top:8px}.hidden{display:none!important}.tablewrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:760px}.table th,.table td{padding:11px 9px;border-bottom:1px solid var(--border);text-align:center}.table th{color:var(--muted);font-size:12px;text-transform:uppercase}.table td:first-child,.table th:first-child{text-align:left}.money{font-weight:900;color:#ffd35a}.ok{color:var(--green);font-weight:900}.bad{color:#ff6e74;font-weight:900}.pending{color:var(--yellow);font-weight:900}.status{font-size:12px;margin-top:7px}.section-title{display:flex;justify-content:space-between;align-items:center;gap:10px}.pill{padding:5px 9px;border-radius:999px;background:#101820;border:1px solid var(--border);font-size:12px}.footer{color:#69737d;font-size:11px;text-align:center;padding:30px 0}.admin-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px}.small{font-size:12px}.checkbox{display:flex;align-items:center;gap:8px}.checkbox input{width:auto}.logoBig{width:115px;height:115px;object-fit:contain;display:block;margin:0 auto 10px}
 @media(max-width:650px){.wrap{padding:12px}.brand h1{font-size:25px}.controls{grid-template-columns:1fr}.admin-row{grid-template-columns:1fr}.table{min-width:650px}}
 </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // SUPABASE — Super Parón LFC
+    // Publishable/anon key: safe for frontend use when RLS is correctly configured.
+    const SUPABASE_URL = "https://kprkwwfgweufghgemkml.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_rmQwmKN3a2T50VD7fpBqhg_5Fd8pNvV";
+    const supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+  </script>
+
 </head>
 <body>
 <div class="wrap">
@@ -288,5 +301,152 @@ const app=document.getElementById("app"); if(page==="home")app.innerHTML=home();
 function render(){if(!session){document.getElementById("app").innerHTML=loginView();return}renderPage("home")}
 render();
 </script>
+
+<script>
+(function () {
+  "use strict";
+
+  const TEAM_LOGINS = {
+    "Jowy FC": "jowy-fc@superparon-lfc.local",
+    "F.C. BERNAL": "fc-bernal@superparon-lfc.local",
+    "Tititeam": "tititeam@superparon-lfc.local",
+    "Waki Lab": "waki-lab@superparon-lfc.local",
+    "Jarama FC": "jarama-fc@superparon-lfc.local",
+    "Aranegame FC": "aranegame-fc@superparon-lfc.local",
+    "CASTRO S.A.D.": "castro-sad@superparon-lfc.local",
+    "Real Byron Caninn": "real-byron-caninn@superparon-lfc.local"
+  };
+
+  const TEAM_CODES = {
+    "Jowy FC": "JOWY27",
+    "F.C. BERNAL": "BERNAL14",
+    "Tititeam": "TITI23",
+    "Waki Lab": "WAKI31",
+    "Jarama FC": "JARA42",
+    "Aranegame FC": "ARAN18",
+    "CASTRO S.A.D.": "CASTRO55",
+    "Real Byron Caninn": "BYRON66"
+  };
+
+  async function getSessionData() {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (!session) return { session: null, profile: null, participant: null };
+
+    const { data: profile, error: profileError } = await supabaseClient
+      .from("profiles")
+      .select("id,is_admin,participant_id")
+      .eq("id", session.user.id)
+      .maybeSingle();
+
+    if (profileError) throw profileError;
+
+    let participant = null;
+    if (profile && profile.participant_id) {
+      const { data, error } = await supabaseClient
+        .from("participants")
+        .select("*")
+        .eq("id", profile.participant_id)
+        .maybeSingle();
+      if (error) throw error;
+      participant = data;
+    }
+
+    return { session, profile, participant };
+  }
+
+  async function loadPhase1Data() {
+    const [
+      participants,
+      blocks,
+      matches,
+      fantasyPlayers,
+      convocations
+    ] = await Promise.all([
+      supabaseClient.from("participants").select("*").order("display_order"),
+      supabaseClient.from("blocks").select("*").order("starts_at"),
+      supabaseClient.from("matches").select("*").order("block_id").order("match_order"),
+      supabaseClient.from("fantasy_players").select("*").order("participant_id").order("player_name"),
+      supabaseClient.from("convocation_players").select("*").order("match_id").order("player_name")
+    ]);
+
+    for (const result of [participants, blocks, matches, fantasyPlayers, convocations]) {
+      if (result.error) throw result.error;
+    }
+
+    return {
+      participants: participants.data || [],
+      blocks: blocks.data || [],
+      matches: matches.data || [],
+      fantasyPlayers: fantasyPlayers.data || [],
+      convocations: convocations.data || []
+    };
+  }
+
+  window.LFC_SUPABASE = {
+    client: supabaseClient,
+    TEAM_LOGINS,
+    TEAM_CODES,
+    getSessionData,
+    loadPhase1Data
+  };
+
+  // Simple console diagnostics. No passwords are logged.
+  supabaseClient.auth.getSession().then(async ({ data }) => {
+    try {
+      const session = data.session;
+      if (!session) {
+        console.info("[LFC] Supabase conectado. No hay sesión iniciada.");
+        return;
+      }
+      const info = await getSessionData();
+      console.info("[LFC] Sesión activa:", {
+        email: session.user.email,
+        is_admin: info.profile?.is_admin ?? false,
+        team: info.participant?.team_name ?? null
+      });
+    } catch (error) {
+      console.error("[LFC] Error comprobando la sesión:", error);
+    }
+  });
+
+  // Helper intended for the next UI integration step.
+  window.lfcLogin = async function (teamName, code) {
+    const email = TEAM_LOGINS[teamName];
+    if (!email) throw new Error("Equipo no válido.");
+    if (!code) throw new Error("Introduce el código.");
+
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
+      email,
+      password: code
+    });
+
+    if (error) throw error;
+    return getSessionData();
+  };
+
+  window.lfcLogout = async function () {
+    const { error } = await supabaseClient.auth.signOut();
+    if (error) throw error;
+  };
+
+  window.lfcTestBackend = async function () {
+    const info = await getSessionData();
+    const data = await loadPhase1Data();
+    return {
+      authenticated: !!info.session,
+      team: info.participant?.team_name || null,
+      isAdmin: !!info.profile?.is_admin,
+      counts: {
+        participants: data.participants.length,
+        blocks: data.blocks.length,
+        matches: data.matches.length,
+        fantasyPlayers: data.fantasyPlayers.length,
+        convocations: data.convocations.length
+      }
+    };
+  };
+})();
+</script>
+
 </body>
 </html>
